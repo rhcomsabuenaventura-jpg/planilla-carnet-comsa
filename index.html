@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Planilla de Entrega y Recepción de Carnet - COMSA</title>
+  <style>
+    :root {
+      --primary: #0f2c59;
+      --accent: #1d5fa7;
+      --border: #cbd5e1;
+      --bg-light: #f8fafc;
+      --text: #1e293b;
+      --muted: #64748b;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #eef2f6;
+      color: var(--text);
+    }
+
+    .container {
+      max-width: 980px;
+      margin: 0 auto;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 24px;
+      box-shadow: 0 4px 16px rgba(15, 44, 89, 0.08);
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 14px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .brand-box {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .logo-preview {
+      max-height: 64px;
+      max-width: 160px;
+      object-fit: contain;
+      display: none;
+    }
+
+    .company-info h1 {
+      margin: 0;
+      font-size: 18px;
+      color: var(--primary);
+    }
+
+    .company-info p {
+      margin: 3px 0 0;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .project-banner {
+      background: var(--bg-light);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--primary);
+      padding: 10px 14px;
+      border-radius: 4px;
+      margin-bottom: 16px;
+      font-size: 14px;
+      font-weight: bold;
+      color: var(--primary);
+    }
+
+    .conditions {
+      background: var(--bg-light);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 12px 16px;
+      margin-bottom: 20px;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .conditions h2 {
+      margin: 0 0 8px;
+      font-size: 14px;
+      color: var(--primary);
+    }
+
+    .conditions ol {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .form-panel {
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 16px;
+      margin-bottom: 22px;
+      background: #fcfdff;
+    }
+
+    .form-panel h2 {
+      margin: 0 0 14px;
+      font-size: 15px;
+      color: var(--primary);
+    }
+
+    .grid-fields {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    label {
+      display: block;
+      font-size: 12px;
+      font-weight: bold;
+      margin-bottom: 4px;
+      color: var(--text);
+    }
+
+    input[type="text"],
+    input[type="date"] {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid #94a3b8;
+      border-radius: 4px;
+      font-size: 13px;
+    }
+
+    .signature-box {
+      margin-top: 10px;
+    }
+
+    canvas#sigCanvas {
+      width: 100%;
+      height: 150px;
+      border: 1.5px dashed #64748b;
+      border-radius: 6px;
+      background: #ffffff;
+      touch-action: none;
+      cursor: crosshair;
+      display: block;
+    }
+
+    .sig-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 6px;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .checkbox-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin-top: 12px;
+      font-size: 13px;
+    }
+
+    .checkbox-row input {
+      margin-top: 2px;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+
+    button {
+      border: none;
+      border-radius: 5px;
+      padding: 9px 14px;
+      font-size: 13px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #ffffff;
+    }
+
+    .btn-secondary {
+      background: var(--accent);
+      color: #ffffff;
+    }
+
+    .btn-light {
+      background: #e2e8f0;
+      color: #1e293b;
+    }
+
+    .btn-danger {
+      background: #dc2626;
+      color: #ffffff;
+      padding: 5px 9px;
+      font-size: 12px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      margin-top: 10px;
+    }
+
+    th, td {
+      border: 1px solid var(--border);
+      padding: 8px 10px;
+      text-align: left;
+      vertical-align: middle;
+    }
+
+    th {
+      background: var(--primary);
+      color: #ffffff;
+      font-size: 12px;
+    }
+
+    .sig-img {
+      max-height: 44px;
+      max-width: 130px;
+      display: block;
+    }
+
+    .footer-ochi {
+      margin-top: 22px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .ochi-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .ochi-preview {
+      max-height: 54px;
+      max-width: 90px;
+      object-fit: contain;
+      display: none;
+    }
+
+    .media-uploaders {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      font-size: 12px;
+    }
+
+    @media print {
+      body {
+        background: #ffffff;
+        padding: 0;
+      }
+      .container {
+        border: none;
+        box-shadow: none;
+        max-width: 100%;
+        padding: 10px;
+      }
+      .no-print {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="brand-box">
+        <img id="logoImg" class="logo-preview" alt="Logo COMSA" />
+        <div class="company-info">
+          <h1>CONSTRUCTORA MANZANILLO S.A. DE C.V. (COMSA)</h1>
+          <p>NIT: 902125343-0 &nbsp;|&nbsp; Departamento de Recursos Humanos</p>
+          <p><strong>Formato:</strong> Control de Entrega y Recepción de Carnet Corporativo</p>
+        </div>
+      </div>
+      <div class="media-uploaders no-print">
+        <label class="btn-light" style="padding:6px 10px; margin:0; cursor:pointer;">
+          Cargar Logo
+          <input type="file" id="logoInput" accept="image/*" hidden />
+        </label>
+        <label class="btn-light" style="padding:6px 10px; margin:0; cursor:pointer;">
+          Cargar Ochi
+          <input type="file" id="ochiInput" accept="image/*" hidden />
+        </label>
+      </div>
+    </div>
+
+    <div class="project-banner">
+      Proyecto: QD3 - SPIA PHASE 2 (B)
+    </div>
+
+    <div class="conditions">
+      <h2>Condiciones de Uso, Custodia y Devolución del Carnet</h2>
+      <ol>
+        <li><strong>Uso personal e intransferible:</strong> El carnet acredita la identificación del trabajador dentro del proyecto y no puede cederse ni prestarse a terceros.</li>
+        <li><strong>Porte y cuidado:</strong> Debe portarse de forma visible durante la jornada y mantenerse en buen estado.</li>
+        <li><strong>Pérdida, robo o deterioro:</strong> Cualquier novedad debe reportarse de inmediato a Recursos Humanos.</li>
+        <li><strong>Devolución:</strong> El carnet debe restituirse a Recursos Humanos al finalizar el vínculo laboral, la asignación o cuando la empresa lo requiera.</li>
+      </ol>
+    </div>
+
+    <div class="form-panel no-print">
+      <h2>Registrar Recepción y Firma</h2>
+      <div class="grid-fields">
+        <div>
+          <label for="workerName">Nombre completo</label>
+          <input type="text" id="workerName" placeholder="Ej. Juan Pérez Gómez" />
+        </div>
+        <div>
+          <label for="workerId">ID (CC / CE / PA)</label>
+          <input type="text" id="workerId" placeholder="Ej. CC 123456789" />
+        </div>
+        <div>
+          <label for="workerRole">Cargo</label>
+          <input type="text" id="workerRole" placeholder="Ej. Oficial de Obra" />
+        </div>
+        <div>
+          <label for="deliveryDate">Fecha</label>
+          <input type="date" id="deliveryDate" />
+        </div>
+      </div>
+
+      <div class="signature-box">
+        <label for="sigCanvas">Firma del trabajador (táctil o mouse)</
